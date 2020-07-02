@@ -107,12 +107,12 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
     protected static final String INSERT_NULL_CASH_TYPES_STMT = "INSERT INTO cash_table (csh) VALUES (NULL)";
     protected static final String INSERT_DATE_TIME_TYPES_STMT = "INSERT INTO time_table(ts, tsneg, ts_ms, ts_us, tz, date, ti, tip, ttf, ttz, tptz, it, ts_large, ts_large_us, ts_large_ms, tz_large) "
             +
-            "VALUES ('2016-11-04T13:51:30.023456'::TIMESTAMP, '1936-10-25T22:10:12.608'::TIMESTAMP, '2016-11-04T13:51:30.023456'::TIMESTAMP, '2016-11-04T13:51:30.023456'::TIMESTAMP, '2016-11-04T13:51:30.023456+02:00'::TIMESTAMPTZ, "
+            "VALUES ('2016-11-04T13:51:30.023456'::TIMESTAMP, '1936-10-25T22:10:12.608'::TIMESTAMP, '2016-11-04T13:51:30.123456'::TIMESTAMP, '2016-11-04T13:51:30.123456'::TIMESTAMP, '2016-11-04T13:51:30.123456+02:00'::TIMESTAMPTZ, "
             +
             "'2016-11-04'::DATE, '13:51:30'::TIME, '13:51:30.123'::TIME, '24:00:00'::TIME, '13:51:30.123789+02:00'::TIMETZ, '13:51:30.123+02:00'::TIMETZ, " +
             "'P1Y2M3DT4H5M6.78S'::INTERVAL," +
-            "'21016-11-04T13:51:30.023456'::TIMESTAMP, '21016-11-04T13:51:30.123457'::TIMESTAMP, '21016-11-04T13:51:30.124'::TIMESTAMP," +
-            "'21016-11-04T13:51:30.023456+07:00'::TIMESTAMPTZ)";
+            "'21016-11-04T13:51:30.123456'::TIMESTAMP, '21016-11-04T13:51:30.123457'::TIMESTAMP, '21016-11-04T13:51:30.124'::TIMESTAMP," +
+            "'21016-11-04T13:51:30.123456+07:00'::TIMESTAMPTZ)";
     protected static final String INSERT_BIN_TYPES_STMT = "INSERT INTO bitbin_table (ba, bol, bs, bv, bv2, bvl) " +
             "VALUES (E'\\\\001\\\\002\\\\003'::bytea, '0'::bit(1), '11'::bit(2), '00'::bit(2), '000000110000001000000001'::bit(24)," +
             "'1000000000000000000000000000000000000000000000000000000000000000'::bit(64))";
@@ -572,9 +572,9 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
 
     protected List<SchemaAndValueField> schemaAndValuesForDateTimeTypes() {
         long expectedTs = asEpochMicros("2016-11-04T13:51:30.023456");
-        long expectedTsMs = asEpochMillis("2016-11-04T13:51:30.023456");
+        long expectedTsMs = asEpochMillis("2016-11-04T13:51:30.123456");
         long expectedNegTs = asEpochMicros("1936-10-25T22:10:12.608");
-        String expectedTz = "2016-11-04T11:51:30.023456Z"; // timestamp is stored with TZ, should be read back with UTC
+        String expectedTz = "2016-11-04T11:51:30.123456Z"; // timestamp is stored with TZ, should be read back with UTC
         int expectedDate = Date.toEpochDay(LocalDate.parse("2016-11-04"), null);
         long expectedTi = LocalTime.parse("13:51:30").toNanoOfDay() / 1_000;
         long expectedTiPrecision = LocalTime.parse("13:51:30.123").toNanoOfDay() / 1_000_000;
@@ -583,7 +583,7 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
         String expectedTtzPrecision = "11:51:30.123Z";
         long expectedInterval = MicroDuration.durationMicros(1, 2, 3, 4, 5, 6, 780000, MicroDuration.DAYS_PER_MONTH_AVG);
 
-        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 023456;
+        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123456;
         long expectedTsLargeUs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123457;
         long expectedTsLargeMs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 124000000, ZoneOffset.UTC).toInstant().toEpochMilli();
 
@@ -640,15 +640,15 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
 
     protected List<SchemaAndValueField> schemaAndValuesForDateTimeTypesAdaptiveTimeMicroseconds() {
         long expectedTs = asEpochMicros("2016-11-04T13:51:30.023456");
-        long expectedTsMs = asEpochMillis("2016-11-04T13:51:30.023456");
+        long expectedTsMs = asEpochMillis("2016-11-04T13:51:30.123456");
         long expectedNegTs = asEpochMicros("1936-10-25T22:10:12.608");
-        String expectedTz = "2016-11-04T11:51:30.023456Z"; // timestamp is stored with TZ, should be read back with UTC
+        String expectedTz = "2016-11-04T11:51:30.123456Z"; // timestamp is stored with TZ, should be read back with UTC
         int expectedDate = Date.toEpochDay(LocalDate.parse("2016-11-04"), null);
         long expectedTi = LocalTime.parse("13:51:30").toNanoOfDay() / 1_000;
         String expectedTtz = "11:51:30.123789Z"; // time is stored with TZ, should be read back at GMT
         long expectedInterval = MicroDuration.durationMicros(1, 2, 3, 4, 5, 6.78, MicroDuration.DAYS_PER_MONTH_AVG);
 
-        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 023456;
+        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123456;
         long expectedTsLargeUs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123457;
         long expectedTsLargeMs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 124000000, ZoneOffset.UTC).toInstant().toEpochMilli();
 
@@ -895,10 +895,10 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
                 new SchemaAndValueField("time_alias", MicroTime.builder().build(), LocalTime.parse("01:02:03").toNanoOfDay() / 1_000),
                 new SchemaAndValueField("timetz_base", ZonedTime.builder().build(), "01:02:03.123789Z"),
                 new SchemaAndValueField("timetz_alias", ZonedTime.builder().build(), "01:02:03.123789Z"),
-                new SchemaAndValueField("timestamp_base", MicroTimestamp.builder().build(), asEpochMicros("2019-10-02T01:02:03.023456")),
-                new SchemaAndValueField("timestamp_alias", MicroTimestamp.builder().build(), asEpochMicros("2019-10-02T01:02:03.023456")),
-                new SchemaAndValueField("timestamptz_base", ZonedTimestamp.builder().build(), "2019-10-02T11:51:30.023456Z"),
-                new SchemaAndValueField("timestamptz_alias", ZonedTimestamp.builder().build(), "2019-10-02T11:51:30.023456Z"),
+                new SchemaAndValueField("timestamp_base", MicroTimestamp.builder().build(), asEpochMicros("2019-10-02T01:02:03.123456")),
+                new SchemaAndValueField("timestamp_alias", MicroTimestamp.builder().build(), asEpochMicros("2019-10-02T01:02:03.123456")),
+                new SchemaAndValueField("timestamptz_base", ZonedTimestamp.builder().build(), "2019-10-02T11:51:30.123456Z"),
+                new SchemaAndValueField("timestamptz_alias", ZonedTimestamp.builder().build(), "2019-10-02T11:51:30.123456Z"),
                 new SchemaAndValueField("timewottz_base", MicroTime.builder().build(), LocalTime.parse("01:02:03").toNanoOfDay() / 1_000),
                 new SchemaAndValueField("timewottz_alias", MicroTime.builder().build(), LocalTime.parse("01:02:03").toNanoOfDay() / 1_000),
                 new SchemaAndValueField("interval_base", MicroDuration.builder().build(),
