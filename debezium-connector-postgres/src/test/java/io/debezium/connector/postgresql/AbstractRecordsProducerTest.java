@@ -587,7 +587,7 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
         long expectedTsLargeUs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123457;
         long expectedTsLargeMs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 124000000, ZoneOffset.UTC).toInstant().toEpochMilli();
 
-        String expectedTzLarge = "+21016-11-04T06:51:30.023456Z";
+        String expectedTzLarge = "+21016-11-04T06:51:30.123456Z";
 
         return Arrays.asList(new SchemaAndValueField("ts", MicroTimestamp.builder().optional().build(), expectedTs),
                 new SchemaAndValueField("tsneg", MicroTimestamp.builder().optional().build(), expectedNegTs),
