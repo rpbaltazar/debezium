@@ -583,7 +583,7 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
         String expectedTtzPrecision = "11:51:30.123Z";
         long expectedInterval = MicroDuration.durationMicros(1, 2, 3, 4, 5, 6, 780000, MicroDuration.DAYS_PER_MONTH_AVG);
 
-        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123456;
+        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 023456;
         long expectedTsLargeUs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123457;
         long expectedTsLargeMs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 124000000, ZoneOffset.UTC).toInstant().toEpochMilli();
 
@@ -648,7 +648,7 @@ public abstract class AbstractRecordsProducerTest extends AbstractConnectorTest 
         String expectedTtz = "11:51:30.123789Z"; // time is stored with TZ, should be read back at GMT
         long expectedInterval = MicroDuration.durationMicros(1, 2, 3, 4, 5, 6.78, MicroDuration.DAYS_PER_MONTH_AVG);
 
-        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123456;
+        long expectedTsLarge = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 023456;
         long expectedTsLargeUs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 0, ZoneOffset.UTC).toInstant().toEpochMilli() * 1000 + 123457;
         long expectedTsLargeMs = OffsetDateTime.of(21016, 11, 4, 13, 51, 30, 124000000, ZoneOffset.UTC).toInstant().toEpochMilli();
 
